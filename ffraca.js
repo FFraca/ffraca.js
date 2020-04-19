@@ -1,3 +1,13 @@
+const letters = {
+	lower: ["q" ,"w" ,"e" ,"r" ,"t" ,"y" ,"u" ,"i" ,"o" ,"p" ,"a" ,"s" ,"d" ,"f" ,"g" ,"h" ,"j" ,"k" ,"l" ,"z" ,"x" ,"c" ,"v" ,"b" ,"n" ,"m"],
+	upper: ["q" ,"w" ,"e" ,"r" ,"t" ,"y" ,"u" ,"i" ,"o" ,"p" ,"a" ,"s" ,"d" ,"f" ,"g" ,"h" ,"j" ,"k" ,"l" ,"z" ,"x" ,"c" ,"v" ,"b" ,"n" ,"m"]
+};
+
+for(var i = 0; i < letters.upper.length; i++){
+	letters.upper[i] = letters.upper[i].toUpperCase();
+}
+
+
 var nice_to_meet_you = "NICE TO MEET YOU TOO!";
 
 function random(min, max){
@@ -94,8 +104,8 @@ function time(){
 	current.date.day.month.string = d.getDate() < 10 ? "0" + String(d.getDate()) : String(d.getDate());
 	current.date.day.week.number = d.getDay();
 	current.date.day.week.string = weekDay[current.date.day.week.number];
-	current.date.month.number.number = d.getMonth();
-	current.date.month.number.string = d.getMonth() < 10 ? "0" + String(d.getMonth()) : String(d.getMonth());
+	current.date.month.number.number = d.getMonth() + 1;
+	current.date.month.number.string = d.getMonth() < 10 ? "0" + String(d.getMonth() + 1) : String(d.getMonth() + 1);
 	current.date.month.string = months[current.date.month.number.number - 1];
 	current.date.year = d.getYear() + 1900;
 	current.date.string['dd-mm-yyyy'] = current.date.day.month.string + "-" + current.date.month.number.string + "-" + String(current.date.year);
@@ -159,33 +169,22 @@ function age(day, month, year){
 	birth.month = parseInt(month);
 	birth.year = parseInt(year);
 
-	let output;
-
-	let errori = "";
-
-	if(isNaN(birth.day) || (birth.day > 31 || birth.day < 1)) errori += "Day is not a valid number (1 - 31), ";
-	if(isNaN(birth.month) || (birth.month < 1 || birth.month > 12)) errori += "Month is not a valid number (1 - 12), ";
-	if(isNaN(birth.year) || (birth.year > current.year || birth.year < 1000)) errori += "Year is not a valid number (1000 - " + current.year + "), ";
-
-	if(errori.length > 0){
-		errori = errori.substring(0, errori.length - 2);
-		console.error(errori);
-		return false;
+	base = current.year - birth.year;
+	if(birth.month > current.month){
+		base--;
 	}
-	else{
-
-		output = current.year - birth.year;
-		if(current.month == birth.month){
-			if(current.day > birth.day){
-				output--;
-			}
+	else if(birth.month == current.month){
+		if(birth.day > current.day){
+			base--;
 		}
-		else if(current.month < birth.month){
-			output++;
-		}
-
-		return output;
 	}
+
+
+	return base;
+}
+
+Object.prototype.onClick = function(funzione){
+	this.addEventListener('click', funzione);
 }
 
 function hide(query, all){
@@ -282,6 +281,7 @@ function help(){
  12 show(query, all); => SHOW OBJECT/OBJECTS THAT WAS/WERE HID WITH hide FUNCTION, SAME SYNTAX
  13 "your_string".only(['a', 'b', 'c', 'd']) => TEST IF A STRING CONTAINS ONLY THE CHARS DECLARED IN THE PARAMETER OF THE FUNCTION USING AN ARRAY, IF SO IT RETURNS true ELSE IT RETURN THE CONVERTED STRING THAT CONTAINS ONLY THESE CHARS
  14 int("your_string") => FILTER ONLY NUMBERS IN A STRING, EXAMPLE: int("ASDAD998E9190") WILL RETURN 9989190
+ 15 HTMLObject.onClick(your_function) => ADD THE LISTENER FOR THE CLICK ON AN HTML OBJECT
  	`;
 	return output;
 }
