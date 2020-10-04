@@ -22,55 +22,15 @@ function random(min, max){
 }
 
 String.prototype.invert = function(){
-	let stringa = [];
-	let output = "";
-	for(i in this){
-		if(!isNaN(i)){
-			stringa.push(this[i]);
-		}
-	}
-
-	for(var i = stringa.length; i--; i >= 0){
-		output += stringa[i];
-	}
-
-	return output;
+	return [...this].invert().join('');
 }
 
 function extension(fileName){
-	let splitted = fileName.split('.');
-	if(splitted.length > 1){
-		return splitted[splitted.length - 1];
-	}
-	else{
-		return false;
-	}
+	return fileName.split('.')[fileName.split('.').length - 1];
 }
 
 String.prototype.replaceAll = function(search, replace) {
-	let stringa = "";
-	for(i in this){
-		if(!isNaN(parseInt(i))){
-			stringa += this[i];
-		}
-	}
-
-	for(var i = 0; i < stringa.length; i++){
-		stringa = stringa.replace(search, replace);
-	}
-
-	let parametri = "";
-
-	if(search === undefined) parametri += "search, ";
-	if(replace === undefined) parametri += "replace, ";
-
-	if(parametri.length > 0){
-		parametri = parametri.substring(0, parametri.length - 2);
-		console.error("You must define a [" + parametri + "] value in \"" + stringa + "\".replaceAll!");
-	}
-	else{
-		return stringa;
-	}
+	return this.split(search).join(replace);
 };
 
 Array.prototype.random = function(){
@@ -220,7 +180,7 @@ function int(stringa){
 		return parseInt(stringa.only([0,1,2,3,4,5,6,7,8,9]));
 	}
 	else{
-		console.error("In int(string), string has to be a String");
+		console.error("In int(string), string anin't String");
 		return false;
 	}
 }
